@@ -38,15 +38,22 @@ class CMakeModule(Package, DownloadableModule):
     PHASE_DIST = 'dist'
     PHASE_INSTALL = 'install'
 
-    def __init__(self, name, branch, dependencies=[], after=[], suggests=[]):
+    def __init__(self, name, buildroot, branch, dependencies=[], after=[], suggests=[]):
         Package.__init__(self, name, dependencies, after, suggests)
         self.branch = branch
+        self.buildroot = buildroot
 
     def get_srcdir(self, buildscript):
         return self.branch.srcdir
 
     def get_builddir(self, buildscript):
-        if buildscript.config.buildroot:
+        if self.buildroot:
+            if self.buildroot[0] == '/':
+                root = self.buildroot
+            else:
+                root = os.path.join(self.get_srcdir(buildscript), self.buildroot)
+            return root
+        elif buildscript.config.buildroot:
             d = buildscript.config.builddir_pattern % (
                 os.path.basename(self.get_srcdir(buildscript)))
             return os.path.join(buildscript.config.buildroot, d)
@@ -110,10 +117,13 @@ class CMakeModule(Package, DownloadableModule):
 
 def parse_cmake(node, config, uri, repositories, default_repo):
     id = node.getAttribute('id')
+    buildroot = None
+    if node.hasAttribute('buildroot'):
+        buildroot = node.getAttribute('buildroot')
     dependencies, after, suggests = get_dependencies(node)
     branch = get_branch(node, repositories, default_repo, config)
 
-    return CMakeModule(id, branch, dependencies = dependencies, after = after,
+    return CMakeModule(id, buildroot, branch, dependencies = dependencies, after = after,
             suggests = suggests)
 
 register_module_type('cmake', parse_cmake)
