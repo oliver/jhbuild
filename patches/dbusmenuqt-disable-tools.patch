@@ -1,0 +1,13 @@
+explicitly don't build tools/ subdirectory, to avoid QJson dependency
+
+I think the tools are optional anyway but the Cmake QJson check leads
+to complete failure rather than disabling of this subdirectory.
+
+--- libdbusmenu-qt-0.3.0/CMakeLists.txt.orig	2010-08-27 21:20:04.000000000 +0200
++++ libdbusmenu-qt-0.3.0/CMakeLists.txt	2010-08-26 23:59:54.000000000 +0200
+@@ -52,4 +52,4 @@
+ 
+ add_subdirectory(src)
+ add_subdirectory(tests)
+-add_subdirectory(tools)
++#add_subdirectory(tools)

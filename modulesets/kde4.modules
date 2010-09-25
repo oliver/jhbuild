@@ -1,0 +1,280 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: nxml -*-->
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+<!--
+Pre-Requirements:
+[- cmake (can be an old version - only used for bootstrapping)]
+- libxml2-dev
+- libboost-program-options-dev
+- libboost-graph-dev
+- libgpgme11-dev
+- libical-dev
+- libxkbfile-dev
+
+- optional: Sqlite, 3.6.23
+-->
+
+
+  <repository type="tarball" name="ftp.kde.org"
+      href="http://ftp.gwdg.de/pub/x11/kde/stable/"/>
+  <repository type="svn" name="svn.kde.org"
+      href="svn://anonsvn.kde.org/home/kde/"/>
+  <repository type="tarball" name="cmake.org"
+      href="http://www.cmake.org/files/"/>
+  <repository type="git" name="gitorious.org"
+      href="git://gitorious.org/"/>
+  <!-- <repository type="git" name="clucene.git.sf.net"
+      href="git://clucene.git.sourceforge.net/gitroot/"/> -->
+  <repository type="tarball" name="clucene.sf.net"
+      href="http://downloads.sourceforge.net/project/clucene/clucene-core-stable/"/>
+  <repository type="tarball" name="downloads.sf.net"
+      href="http://downloads.sourceforge.net/project/"/>
+  <repository type="tarball" name="dbusmenuqt-repo"
+      href="http://people.canonical.com/~agateau/dbusmenu/"/>
+  <repository type="tarball" name="librdf.org"
+      href="http://download.librdf.org/source/"/>
+  <repository type="tarball" name="iodbc.org"
+      href="http://www.iodbc.org/downloads/"/>
+  <repository type="tarball" name="sqlite.org"
+      href="http://www.sqlite.org/"/>
+
+
+  <cmake id="kdevelop">
+    <branch module="kdevelop/4.0.1/src/kdevelop-4.0.1.tar.bz2" version="4.0.1"
+            repo="ftp.kde.org"
+            size="4698799"
+            md5sum="0538996c8cf47352fb075d8d301892fe"/>
+    <dependencies>
+      <dep package="kdevplatform"/>
+      <dep package="kdebase-workspace"/>
+    </dependencies>
+  </cmake>
+
+  <cmake id="kdevplatform">
+    <branch module="kdevelop/4.0.1/src/kdevplatform-1.0.1.tar.bz2" version="1.0.1"
+            repo="ftp.kde.org"
+            size="1481140"
+            md5sum="c618fbc42e7885072dcfb2e5322fd926"/>
+    <dependencies>
+      <dep package="kdelibs"/>
+    </dependencies>
+  </cmake>
+
+
+  <cmake id="kdebase-workspace">
+    <branch module="4.5.0/src/kdebase-workspace-4.5.0.tar.bz2" version="4.5.0"
+            repo="ftp.kde.org"
+            size="65721613"
+            md5sum="effb3a6a7e1c1967588bb92927ef7771"/>
+    <dependencies>
+      <dep package="kdebase"/>
+    </dependencies>
+  </cmake>
+
+  <cmake id="kdebase">
+    <branch module="4.5.0/src/kdebase-4.5.0.tar.bz2" version="4.5.0"
+            repo="ftp.kde.org"
+            size="2611604"
+            md5sum="3201574c2d0e32c43917f18e9740107c"/>
+    <dependencies>
+      <dep package="kdepimlibs"/>
+    </dependencies>
+  </cmake>
+
+  <cmake id="kdepimlibs">
+    <branch module="4.5.0/src/kdepimlibs-4.5.0.tar.bz2" version="4.5.0"
+            repo="ftp.kde.org"
+            size="2668687"
+            md5sum="461a76e42a8908605bf9ecde7b344524"/>
+    <dependencies>
+      <dep package="kdelibs"/>
+      <dep package="shared-desktop-ontologies"/>
+    </dependencies>
+  </cmake>
+
+  <cmake id="kdelibs"
+         cmake-template="%(cmake)s %(srcdir)s/autogen.sh --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s"
+         buildroot="../buildroot_kdelibs"
+         builddir-pattern="%s_buildroot">
+    <branch module="4.5.0/src/kdelibs-4.5.0.tar.bz2" version="4.5.0"
+            repo="ftp.kde.org"
+            size="13858077"
+            md5sum="5da80f7549924808a394e6f8fb477212"/>
+    <dependencies>
+      <dep package="cmake"/>
+      <dep package="kde-qt"/>
+      <dep package="kdesupport"/>
+      <dep package="phonon"/>
+      <dep package="dbusmenuqt"/>
+    </dependencies>
+  </cmake>
+
+  <cmake id="shared-desktop-ontologies">
+    <branch repo="downloads.sf.net"
+            module="oscaf/shared-desktop-ontologies/0.5/shared-desktop-ontologies-0.5.tar.bz2"
+            version="0.5" size="90155"/>
+  </cmake>
+
+  <autotools id="libiodbc">
+    <branch repo="iodbc.org"
+            module="iODBC/libiodbc-3.52.7.tar.gz"
+            version="3.52.7" size="1038710"/>
+  </autotools>
+
+<!--
+  Can't get it built atm (sqlite-amalgamation-3.7.2.tar.gz unpacks into
+  sqlite-3.7.2 directory, which throws off jhbuild) - maybe copy from gnome-external-deps-devel.modules?
+  <autotools id="sqlite">
+    <branch repo="sqlite.org"
+            module="sqlite-amalgamation-3.7.2.tar.gz"
+            version="3.7.2"/>
+  </autotools>
+-->
+
+
+<!--
+  <autotools id="libraptor">
+    <branch repo="librdf.org"
+            module="raptor2-1.9.0.tar.gz"
+            version="1.9.0" size="1569554"/>
+  </autotools>
+-->
+
+  <!-- according to kdesupport/soprano/cmake/modules/FindRaptor.cmake we need at least raptor 1.4.16 -->
+  <!--
+  <autotools id="libraptor">
+    <branch repo="librdf.org"
+            module="raptor-1.4.21.tar.gz"
+            version="1.4.21" size="1651843"/>
+  </autotools>
+  -->
+
+<!--
+  <autotools id="libraptor">
+    <branch repo="librdf.org"
+            module="raptor-1.4.16.tar.gz"
+            version="1.4.16" size="1510527"/>
+  </autotools>
+-->
+
+  <autotools id="libraptor">
+    <branch repo="librdf.org"
+            module="raptor-1.4.17.tar.gz"
+            version="1.4.17" size="1580715"/>
+  </autotools>
+
+<!--
+  <autotools id="librasqal">
+    <branch repo="librdf.org"
+            module="rasqal-0.9.20.tar.gz"
+            version="0.9.20" size="1270144"/>
+  </autotools>
+-->
+
+  <autotools id="librasqal">
+    <branch repo="librdf.org"
+            module="rasqal-0.9.16.tar.gz"
+            version="0.9.16" size="1117561"/>
+  </autotools>
+
+  <autotools id="librdf">
+    <branch repo="librdf.org"
+            module="redland-1.0.10.tar.gz"
+            version="1.0.10" size="1569554"/>
+    <dependencies>
+      <dep package="libraptor"/>
+      <dep package="librasqal"/>
+      <dep package="libiodbc"/> <!-- optional -->
+    </dependencies>
+  </autotools>
+
+  <cmake id="dbusmenuqt">
+    <branch repo="dbusmenuqt-repo"
+            module="libdbusmenu-qt-0.3.0.tar.bz2"
+            version="0.3.0"
+            size="24060">
+      <patch file="dbusmenuqt-disable-tools.patch" strip="1"/>
+    </branch>
+  </cmake>
+
+  <cmake id="phonon">
+    <branch repo="gitorious.org" module="phonon/phonon" checkoutdir="phonon"/>
+  </cmake>
+
+  <cmake id="kdesupport">
+    <branch repo="svn.kde.org" module="trunk/kdesupport" checkoutdir="kdesupport"/>
+    <dependencies>
+      <dep package="clucene"/>
+      <dep package="librdf"/>
+      <dep package="libraptor"/>
+      <dep package="shared-desktop-ontologies"/>
+      <dep package="libiodbc"/> <!-- optional (used for Virtuoso storage backend) -->
+      <!-- <dep package="sqlite"/> --> <!-- optional -->
+    </dependencies>
+  </cmake>
+
+<!--
+  <cmake id="clucene">
+    <branch repo="clucene.git.sf.net"
+            module="clucene/clucene"
+            checkoutdir="clucene"/>
+  </cmake>
+-->
+
+  <autotools id="clucene"
+             autogen-template="%(srcdir)s/autogen.sh --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s ">
+    <branch repo="clucene.sf.net"
+            module="0.9.21b/clucene-core-0.9.21b.tar.bz2"
+            version="0.9.21b" size="1539103"/>
+  </autotools>
+  
+<!--  http://sourceforge.net/projects/clucene/files/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2/download-->
+<!--  http://downloads.sourceforge.net/project/clucene/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2-->
+
+  <!-- Have to pipe "yes" into configure command to agree to license (an interactive configure command... oh the humanity!) -->
+  <autotools id="kde-qt"
+             autogen-template="echo yes | %(srcdir)s/configure -prefix %(prefix)s -opensource -developer-build">
+    <branch repo="gitorious.org"
+            module="+kde-developers/qt/kde-qt"
+            checkoutdir="kde-qt"/>
+  </autotools>
+
+
+<!--
+  <autotools id="cmake"
+             autogenargs="- -datadir ${prefix}/share/CMake - -docdir ${prefix}/doc/CMake - -mandir ${prefix}/man"
+             skip-autogen="never">
+    <branch module="v2.8/cmake-2.8.2.tar.gz" version="2.8.2"
+            repo="cmake.org" size="5392016">
+    </branch>
+    <dependencies>
+    </dependencies>
+  </autotools>
+-->
+<!--
+  <autotools id="cmake2"
+             skip-autogen="never">
+    <branch module="v2.6/cmake-2.6.4.tar.gz" version="2.6.4"
+            repo="cmake.org" size="3285371">
+    </branch>
+    <dependencies>
+    </dependencies>
+  </autotools>
+-->
+
+  <!-- use existing (older) cmake to build new cmake -->
+  <cmake id="cmake">
+    <branch module="v2.8/cmake-2.8.2.tar.gz" version="2.8.2"
+            repo="cmake.org" size="5392016"/>
+  </cmake>
+
+  <!-- cmake's hand-crafted configure script requires "prefix=" syntax -->
+  <autotools id="cmake-new"
+             autogen-template="%(srcdir)s/configure --prefix=%(prefix)s">
+    <branch module="v2.8/cmake-2.8.2.tar.gz" version="2.8.2"
+            repo="cmake.org" size="5392016"/>
+  </autotools>
+
+
+</moduleset>
