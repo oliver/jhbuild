@@ -23,8 +23,6 @@ Pre-Requirements:
       href="http://www.cmake.org/files/"/>
   <repository type="git" name="gitorious.org"
       href="git://gitorious.org/"/>
-  <!-- <repository type="git" name="clucene.git.sf.net"
-      href="git://clucene.git.sourceforge.net/gitroot/"/> -->
   <repository type="tarball" name="clucene.sf.net"
       href="http://downloads.sourceforge.net/project/clucene/clucene-core-stable/"/>
   <repository type="tarball" name="downloads.sf.net"
@@ -213,14 +211,6 @@ Pre-Requirements:
     </dependencies>
   </cmake>
 
-<!--
-  <cmake id="clucene">
-    <branch repo="clucene.git.sf.net"
-            module="clucene/clucene"
-            checkoutdir="clucene"/>
-  </cmake>
--->
-
   <autotools id="clucene"
              autogen-template="%(srcdir)s/autogen.sh --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s ">
     <branch repo="clucene.sf.net"
@@ -228,9 +218,6 @@ Pre-Requirements:
             version="0.9.21b" size="1539103"/>
   </autotools>
   
-<!--  http://sourceforge.net/projects/clucene/files/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2/download-->
-<!--  http://downloads.sourceforge.net/project/clucene/clucene-core-stable/0.9.21b/clucene-core-0.9.21b.tar.bz2-->
-
   <!-- Have to pipe "yes" into configure command to agree to license (an interactive configure command... oh the humanity!) -->
   <autotools id="kde-qt"
              autogen-template="echo yes | %(srcdir)s/configure -prefix %(prefix)s -opensource -developer-build">
