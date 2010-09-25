@@ -4,7 +4,6 @@
 
 <!--
 Pre-Requirements:
-[- cmake (can be an old version - only used for bootstrapping)]
 - libxml2-dev
 - libboost-program-options-dev
 - libboost-graph-dev
@@ -240,37 +239,8 @@ Pre-Requirements:
             checkoutdir="kde-qt"/>
   </autotools>
 
-
-<!--
-  <autotools id="cmake"
-             autogenargs="- -datadir ${prefix}/share/CMake - -docdir ${prefix}/doc/CMake - -mandir ${prefix}/man"
-             skip-autogen="never">
-    <branch module="v2.8/cmake-2.8.2.tar.gz" version="2.8.2"
-            repo="cmake.org" size="5392016">
-    </branch>
-    <dependencies>
-    </dependencies>
-  </autotools>
--->
-<!--
-  <autotools id="cmake2"
-             skip-autogen="never">
-    <branch module="v2.6/cmake-2.6.4.tar.gz" version="2.6.4"
-            repo="cmake.org" size="3285371">
-    </branch>
-    <dependencies>
-    </dependencies>
-  </autotools>
--->
-
-  <!-- use existing (older) cmake to build new cmake -->
-  <cmake id="cmake">
-    <branch module="v2.8/cmake-2.8.2.tar.gz" version="2.8.2"
-            repo="cmake.org" size="5392016"/>
-  </cmake>
-
   <!-- cmake's hand-crafted configure script requires "prefix=" syntax -->
-  <autotools id="cmake-new"
+  <autotools id="cmake"
              autogen-template="%(srcdir)s/configure --prefix=%(prefix)s">
     <branch module="v2.8/cmake-2.8.2.tar.gz" version="2.8.2"
             repo="cmake.org" size="5392016"/>
