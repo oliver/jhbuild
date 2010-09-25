@@ -130,44 +130,12 @@ Pre-Requirements:
 -->
 
 
-<!--
-  <autotools id="libraptor">
-    <branch repo="librdf.org"
-            module="raptor2-1.9.0.tar.gz"
-            version="1.9.0" size="1569554"/>
-  </autotools>
--->
-
   <!-- according to kdesupport/soprano/cmake/modules/FindRaptor.cmake we need at least raptor 1.4.16 -->
-  <!--
-  <autotools id="libraptor">
-    <branch repo="librdf.org"
-            module="raptor-1.4.21.tar.gz"
-            version="1.4.21" size="1651843"/>
-  </autotools>
-  -->
-
-<!--
-  <autotools id="libraptor">
-    <branch repo="librdf.org"
-            module="raptor-1.4.16.tar.gz"
-            version="1.4.16" size="1510527"/>
-  </autotools>
--->
-
   <autotools id="libraptor">
     <branch repo="librdf.org"
             module="raptor-1.4.17.tar.gz"
             version="1.4.17" size="1580715"/>
   </autotools>
-
-<!--
-  <autotools id="librasqal">
-    <branch repo="librdf.org"
-            module="rasqal-0.9.20.tar.gz"
-            version="0.9.20" size="1270144"/>
-  </autotools>
--->
 
   <autotools id="librasqal">
     <branch repo="librdf.org"
