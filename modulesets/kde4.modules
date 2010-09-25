@@ -92,8 +92,7 @@ Pre-Requirements:
 
   <cmake id="kdelibs"
          cmake-template="%(cmake)s %(srcdir)s/autogen.sh --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s"
-         buildroot="../buildroot_kdelibs"
-         builddir-pattern="%s_buildroot">
+         buildroot="../buildroot_kdelibs">
     <branch module="4.5.0/src/kdelibs-4.5.0.tar.bz2" version="4.5.0"
             repo="ftp.kde.org"
             size="13858077"
