@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+
+<!--
+
+Building webkit-stable and pywebkitgtk On Ubuntu Jaunty:
+
+- glib 2.22.5
+- libsoup 2.28.2 (- without-gnome)
+- webkit 1.2.3 (- disable-video)
+- pywebkitgtk 1.1.8
+
+(set LD_LIBRARY_PATH, PKG_CONFIG_PATH, and PATH to point to glib and libsoup and webkit installation dirs)
+
+-->
+
+<moduleset>
+  <repository type="git" name="git.gnome.org" default="yes"
+      href="git://git.gnome.org/"/>
+
+  <repository type="tarball" name="ftp.gnome.org"
+      href="http://ftp.gnome.org/pub/GNOME/sources/"/>
+
+  <repository type="tarball" name="webkitgtk.org"
+      href="http://webkitgtk.org/"/>
+
+  <repository type="tarball" name="pywebkitgtk.google.com"
+      href="http://pywebkitgtk.googlecode.com/files/"/>
+
+
+  <!-- Note: make sure gtk-doc-tools is installed (didn't find a way to make
+       glib build without autogen.sh asking for gtk-doc) -->
+  <autotools id="glib"
+             autogenargs="--disable-gtk-doc">
+    <branch repo="ftp.gnome.org"
+            module="glib/2.22/glib-2.22.5.tar.bz2" version="2.22.5"
+            size="4988402" />
+  </autotools>
+
+  <autotools id="libsoup" autogenargs="--without-gnome">
+    <branch />
+  </autotools>
+
+  <!-- Note: enabling video would require gstreamer-0.10 and notably gstreamer-plugins-base-0.10 >= 0.10.25 -->
+  <autotools id="webkit"
+             autogenargs="--disable-video">
+    <branch repo="webkitgtk.org"
+            module="webkit-1.2.3.tar.gz" version="1.2.3"
+            size="6740030" md5="0ab5c478a6f5b74a1ae96bf13a456662">
+      <!-- Fix error about getRootCoords() -->
+      <!-- <patch file="http://trac.webkit.org/changeset/60845?format=diff&amp;new=60845" strip="2" /> -->
+      <patch file="webkit-changeset-60845-backported.patch" strip="2" />
+    </branch>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </autotools>
+
+
+  <tarball id="webkit-new1"
+             autogenargs="--disable-video">
+    <source href="http://webkitgtk.org/webkit-1.2.3.tar.gz" version="1.2.3"
+            size="6740030" md5="0ab5c478a6f5b74a1ae96bf13a456662">
+      <patches>
+        <!-- Fix error about getRootCoords() -->
+        <patch file="http://trac.webkit.org/changeset/60845?format=diff&amp;new=60845" strip="1" />
+      </patches>
+    </source>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="libsoup"/>
+    </dependencies>
+  </tarball>
+
+  <autotools id="pywebkitgtk">
+    <branch repo="pywebkitgtk.google.com"
+            module="pywebkitgtk-1.1.8.tar.bz2" version="1.1.8" />
+    <dependencies>
+      <dep package="webkit"/>
+    </dependencies>
+  </autotools>
+  
+</moduleset>
