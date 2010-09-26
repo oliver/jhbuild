@@ -1,4 +1,10 @@
-Note by og: removed changes to ChangeLog file which apparently doesn't
+backported WebKit changeset 60845
+
+This patch was taken from http://trac.webkit.org/changeset/60845 .
+Original commit text is:
+"[GTK] Move the declaration of getRootCoords higher up to fix the build on GTK"
+
+For backporting, removed changes to ChangeLog file which apparently doesn't
 exist in webkit-stable.
 
 Index: /trunk/WebKitTools/DumpRenderTree/gtk/EventSender.cpp
