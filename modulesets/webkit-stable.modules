@@ -3,16 +3,8 @@
 <?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
 
 <!--
-
-Building webkit-stable and pywebkitgtk On Ubuntu Jaunty:
-
-- glib 2.22.5
-- libsoup 2.28.2 (- without-gnome)
-- webkit 1.2.3 (- disable-video)
-- pywebkitgtk 1.1.8
-
-(set LD_LIBRARY_PATH, PKG_CONFIG_PATH, and PATH to point to glib and libsoup and webkit installation dirs)
-
+Pre-Requirements:
+- gtk-doc-tools
 -->
 
 <moduleset>
@@ -48,8 +40,6 @@ Building webkit-stable and pywebkitgtk On Ubuntu Jaunty:
     <branch repo="webkitgtk.org"
             module="webkit-1.2.3.tar.gz" version="1.2.3"
             size="6740030" md5="0ab5c478a6f5b74a1ae96bf13a456662">
-      <!-- Fix error about getRootCoords() -->
-      <!-- <patch file="http://trac.webkit.org/changeset/60845?format=diff&amp;new=60845" strip="2" /> -->
       <patch file="webkit-changeset-60845-backported.patch" strip="2" />
     </branch>
     <dependencies>
@@ -57,22 +47,6 @@ Building webkit-stable and pywebkitgtk On Ubuntu Jaunty:
       <dep package="libsoup"/>
     </dependencies>
   </autotools>
-
-
-  <tarball id="webkit-new1"
-             autogenargs="--disable-video">
-    <source href="http://webkitgtk.org/webkit-1.2.3.tar.gz" version="1.2.3"
-            size="6740030" md5="0ab5c478a6f5b74a1ae96bf13a456662">
-      <patches>
-        <!-- Fix error about getRootCoords() -->
-        <patch file="http://trac.webkit.org/changeset/60845?format=diff&amp;new=60845" strip="1" />
-      </patches>
-    </source>
-    <dependencies>
-      <dep package="glib"/>
-      <dep package="libsoup"/>
-    </dependencies>
-  </tarball>
 
   <autotools id="pywebkitgtk">
     <branch repo="pywebkitgtk.google.com"
